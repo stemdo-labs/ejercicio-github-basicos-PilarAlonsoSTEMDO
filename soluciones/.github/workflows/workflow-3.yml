@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Crear issue
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           # Crear una nueva issue y obtener su número
           issue_number=$(gh issue create --assignee pilarAlonsoSTEMDO --title "Issue generada automáticamente al abrir un pull request" --body "Esta issue ha sido creada automáticamente al abrirse el pull request. Asignada a: @pilarAlonsoSTEMDO" | grep -oP '(?<=#)\d+')
@@ -32,6 +34,8 @@ jobs:
     needs: create_issue
     steps:
       - name: Cerrar issue asociada
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           # Obtener el número de la issue creada
           issue_number=$ISSUE_NUMBER
