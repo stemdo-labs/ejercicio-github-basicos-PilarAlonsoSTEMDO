@@ -25,7 +25,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [build, test]
-    if: github.ref == 'refs/heads/main'
     steps:
       - name: Desplegar
         run: echo "Desplegando en main..."
