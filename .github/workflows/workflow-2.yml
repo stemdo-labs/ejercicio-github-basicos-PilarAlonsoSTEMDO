@@ -1,0 +1,31 @@
+#se realizará sobre la rama dev que en mi caso sera palonso el build y test y el deploy(en el ejercicio dice push pero yo entiendo que se refiere a deploy) sobre la rama main
+name: Simular los estados build, test y deploy de CI/CD
+
+on:
+  push:
+    branches:
+      - palonso
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ejecutar build 
+        run: |
+          echo "Construyendo el proyecto..."
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Ejecutar pruebas
+        run: |
+          echo "Ejecutando los tests..."
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Desplegar
+        run: echo "Desplegando en main..."
