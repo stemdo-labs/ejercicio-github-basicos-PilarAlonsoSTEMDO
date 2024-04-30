@@ -1,0 +1,40 @@
+name: Generar issue al abrir un pull request
+
+on:
+  pull_request:
+    types: [opened, closed]
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear issue
+        run: |
+          # Crear una nueva issue y obtener su número
+          issue_number=$(gh issue create --assignee pilarAlonsoSTEMDO --title "Issue generada automáticamente al abrir un pull request" --body "Esta issue ha sido creada automáticamente al abrirse el pull request. Asignada a: @pilarAlonsoSTEMDO" | grep -oP '(?<=#)\d+')
+          echo "Issue created: $issue_number"
+
+          # Obtener el número de la pull request
+          pr_number=$(echo "${{ github.event.pull_request.url }}" | grep -oP '(?<=/pull/)\d+')
+
+          # Agregar un comentario en la issue con la referencia a la pull request
+          gh issue comment $issue_number --body "Esta issue está relacionada con la pull request #$pr_number."
+
+          # Asociar la pull request con la issue
+          gh pr edit $pr_number --add-label "auto-generated" --title "$(gh pr view $pr_number --json title | jq -r '.title') (related to #$issue_number)"
+
+          # Almacenar el número de la issue para su uso posterior
+          echo "ISSUE_NUMBER=$issue_number" >> $GITHUB_ENV
+
+  close_issue:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    needs: create_issue
+    steps:
+      - name: Cerrar issue asociada
+        run: |
+          # Obtener el número de la issue creada
+          issue_number=$ISSUE_NUMBER
+
+          # Cerrar automáticamente la issue
+          gh issue close $issue_number
