@@ -1,0 +1,23 @@
+name: Ejecutar script al hacer push
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  display-info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mostrar información del runner
+        run: |
+          echo "Información del runner:"
+          echo "Sistema operativo: ${{ runner.os }}"
+          echo "Nombre del runner: ${{ runner.name }}"
+          echo "Versión de GitHub Actions: ${{ github.actions }}"
+      
+      - name: Mostrar información de la rama
+        run: |
+          echo "Rama actual: ${{ github.ref }}"
+          echo "Nombre del repositorio: ${{ github.repository }}"
