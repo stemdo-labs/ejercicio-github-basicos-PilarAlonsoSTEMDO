@@ -15,7 +15,7 @@ jobs:
           echo "Información del runner:"
           echo "Sistema operativo: ${{ runner.os }}"
           echo "Nombre del runner: ${{ runner.name }}"
-          echo "Versión de GitHub Actions: ${{ github.actions }}"
+        
       
       - name: Mostrar información de la rama
         run: |
