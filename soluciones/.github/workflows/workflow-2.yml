@@ -1,4 +1,4 @@
-#se realizará sobre la rama dev el build y test y el deploy(en el ejercicio dice push pero yo entiendo que se refiere a deploy) sobre la rama main
+#se realizará el build y test y el deploy(en el ejercicio dice push pero yo entiendo que se refiere a deploy) sobre la rama palonso que funcionara como dev
 name: Simular los estados build, test y deploy de CI/CD
 
 on:
