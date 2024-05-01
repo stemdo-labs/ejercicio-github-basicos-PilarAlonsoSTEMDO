@@ -21,9 +21,10 @@ jobs:
         run: |
           IMAGE_TAG="${{ github.sha }}"
           echo "Image tag set to: $IMAGE_TAG"
-          sed -i "s/<IMAGE_TAG>/$IMAGE_TAG/g" Dockerfile
+          sed -i "s/<IMAGE_TAG>/$IMAGE_TAG/g" Dockerfile 
         # Este comando establece la etiqueta de la imagen como el hash de confirmación actual de GitHub.
-        #cada vez que se cree una nueva imagen tendrá una etiqueta unica asociada al
+        #buscando todas las ocurrencias de image tag en el dockerfile
+        #cada vez que se cree una nueva imagen tendrá una etiqueta unica asociada al hash del commit
 
       - name: Build and Push Image
         run: |
