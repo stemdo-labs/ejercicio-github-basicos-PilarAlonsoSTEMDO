@@ -11,7 +11,9 @@ jobs:
 
     steps:
       - name: Login en Azure
-        uses: azure/login@v1
+        uses: azure/login@v2.1.0
+                      
+
         with: #secretos
           creds: ${{ secrets.AZURE_SP_APP_ID }} 
           password: ${{ secrets.AZURE_SP_PASSWORD }} 
