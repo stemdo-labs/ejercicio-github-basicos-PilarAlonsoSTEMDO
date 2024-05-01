@@ -1,0 +1,50 @@
+name: Calculadora
+
+on:
+  workflow_dispatch: #para activar desde la interfaz de git
+    inputs: #entradas
+      operacion:
+        description: 'Operación a realizar (suma, resta, multiplicacion, division)'
+        required: true
+        default: 'suma'
+      valor1:
+        description: 'Primer valor'
+        required: true
+        default: '0'
+      valor2:
+        description: 'Segundo valor'
+        required: true
+        default: '0'
+
+jobs:
+  calcular:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Realizar cálculo
+        id: calculo
+        #asigno los valores que utilizo a los inputs y la variable resultado a 0
+        #switch case segun la operacion y al final guardamos la variable resultado en resultado para mostrarlo por pantalla
+        run: |
+          operacion="${{ github.event.inputs.operacion }}"
+          valor1="${{ github.event.inputs.valor1 }}"
+          valor2="${{ github.event.inputs.valor2 }}"
+          resultado=0 
+          case $operacion in
+            "suma")
+              resultado=$((valor1 + valor2))
+              ;;
+            "resta")
+              resultado=$((valor1 - valor2))
+              ;;
+            "multiplicacion")
+              resultado=$((valor1 * valor2))
+              ;;
+            "division")
+              resultado=$((valor1 / valor2))
+              ;;
+          esac
+          echo "::set-output name=resultado::$resultado"
+      - name: Mostrar resultado
+        if: always()
+        run: |
+          echo "El resultado de la operación $operacion entre $valor1 y $valor2 es: ${{ steps.calculo.outputs.resultado }}"
